@@ -1,0 +1,25 @@
+.MainDiv{
+    display: flex;
+    height:80vh;
+    width:80vw;
+    border:2px solid red;
+    margin-left:10%;
+    margin-top:5%;
+}
+
+.LeftDiv{
+    height:70vh;
+    width:15vw;
+    margin-left:5vw;
+    border:2px solid yellow;
+    margin-top:5vh;
+}
+
+.RightDiv{
+    height:70vh;
+    margin-left:5vw;
+    width:50vw;
+    margin-right:5vw;
+    border:2px solid blue;
+    margin-top:5vh;
+}

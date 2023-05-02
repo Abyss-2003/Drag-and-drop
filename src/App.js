@@ -1,4 +1,5 @@
 // import logo from './logo.svg';
+import { useState } from "react";
 import "./App.css";
 // import DragNdrop from './components/DragNdrop/DragNdrop';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -31,22 +32,41 @@ const ComponentArray = [
 ];
 
 function App() {
+  const [newArray,setnewArray] = useState([])
 
+  const handleOnDragEnd=(result)=>{
+     const {source,destination}=result;
 
+     if(!destination){
+      return ;
+     }
+      
+     if(source.droppableId===destination.droppableId && source.index===destination.index){
+      return ;
+     }
+
+     const items = Array.from(ComponentArray);
+     const [draggedComponent]=items.splice(result.source.index,1);
+     newArray.splice(result.destination.index,0,draggedComponent)
+    //  setnewArray(newArray);
+     console.log(newArray);
+    //  console.log(draggedComponent);
+  }
+ 
 
   return (
-      <DragDropContext onDragEnd={()=>{}}>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
             <div
               className="MainDiv"
             >
-              <Droppable droppableId="components">
+              <Droppable droppableId="source">
                 {(provided)=>(
                    <div className="LeftDiv" {...provided.droppableProps}
                    ref={provided.innerRef}>
                    {ComponentArray.map((object, index) => {
                      return (
                        <Draggable
-                         key={index}
+                         key={object.id}
                          draggableId={object.id}
                          index={index}
                        >
@@ -64,16 +84,27 @@ function App() {
                        </Draggable>
                      );
                    })}
+
+                   {provided.placeholder}
                  </div>
                 )}
               </Droppable>
 
-              <Droppable droppableId="components">
+              <Droppable droppableId="destination">
                 {(provided)=>(
                   <div className="RightDiv" {...provided.droppableProps}
                   ref={provided.innerRef}>
-                      hello
+                       {
+                        newArray.map((item,index)=>{
+                          return <div className="CompContainer2" key={item.id}>
+                              {item.name}
+                          </div>
+                        })
+                       }
+                      {provided.placeholder}
                   </div>
+
+                  
                 )}
               </Droppable>
             </div>
